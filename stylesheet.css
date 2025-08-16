@@ -60,9 +60,14 @@ input[type="checkbox"] {
 
 #patches-selector {
     display: inline-block;
-    //margin-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
 #custom-patches {
     margin-bottom: 1rem;
+}
+pre, textarea {
+    white-space: pre-wrap;
+    word-break: break-word;
+    word-wrap: break-word;
 }
