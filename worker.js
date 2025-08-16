@@ -15,9 +15,6 @@ function fsCleanup() {
 
 //setup message forwarding for printing and initialization
 var Module = {
-  onRuntimeInitialized: function () {
-    postMessage({ type: "ready" });
-  },
   print: function (text) {
     postMessage({ type: "stdout", text: text });
   },
@@ -30,6 +27,12 @@ var Module = {
 var Loader = Loader({
   showError: function (errorText) {
     postMessage({ type: "error", text: errorText });
+  },
+  // only post "ready" once when status first becomes "Running"
+  statusChanged: function (status) {
+    if (status === "Running") {
+      postMessage({ type: "ready" });
+    }
   },
 });
 

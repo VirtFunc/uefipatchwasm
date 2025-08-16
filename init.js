@@ -25,9 +25,11 @@ function init() {
             progressText.style.display = "none";
           }
         }
+        break;
 
       case "ready":
         // enable the patch button
+        console.log("Worker is ready");
         patchButtonState("Patch", false);
         break;
       case "error":
@@ -65,8 +67,7 @@ function init() {
       var reader = new FileReader();
       reader.onload = function (e) {
         var inputRomArray = new Uint8Array(e.target.result);
-        document.getElementById("run-patch").innerText = "Patching...";
-        document.getElementById("run-patch").disabled = true;
+        patchButtonState("Patching...", true);
         worker.postMessage({
           type: "runPatch",
           inputRomArray: inputRomArray,
