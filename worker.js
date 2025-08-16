@@ -68,7 +68,7 @@ self.onmessage = function (e) {
       fsCleanup();
       postMessage({
         type: "error",
-        text: "Could not run patch.",
+        text: "Could not run patch. Calling the wasm module failed. For an unknown reason.",
       });
       return;
     }

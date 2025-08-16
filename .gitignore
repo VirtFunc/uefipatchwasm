@@ -1,4 +1,3 @@
-
 #ignore object files
 *.o
-UEFITool/UEFIPatch/output/
+src/UEFITool/UEFIPatch/output/
