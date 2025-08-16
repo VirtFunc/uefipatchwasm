@@ -30,27 +30,33 @@ This process will take a while as it downloads and compiles both Emscripten and 
 
 ```bash
 docker run -it --rm -v $(pwd):/src qt-wasm-builder /src/build_uefipatch.sh
-
+```
 ## Reset / Delete the build environment
 
-Fast commands to completely remove and rebuild the Docker image:
+# Commands to completely remove and rebuild the Docker image:
 
+## Remove any containers based on the image (if any)
 ```bash
-# 1. Remove any containers based on the image (if any)
+
 docker ps -a --filter ancestor=qt-wasm-builder
 docker rm -f $(docker ps -aq --filter ancestor=qt-wasm-builder) 2>/dev/null
-
-# 2. Remove the image itself
+```
+## 2. Remove the image itself
+```bash
 docker rmi qt-wasm-builder
+```
 
-# (Optional) 3. Prune dangling build cache layers
+## (Optional) 3. Prune dangling build cache layers
+```bash
 docker builder prune -f
+```
 
-# 4. Rebuild clean (no cache)
+## 4. Rebuild clean (no cache)
+```bash
 docker build --no-cache --network host -t qt-wasm-builder .
 ```
 
-Minimal reset (just force a clean rebuild without deleting other images):
+### Minimal reset (just force a clean rebuild without deleting other images):
 
 ```bash
 docker build --no-cache --network host -t qt-wasm-builder .
