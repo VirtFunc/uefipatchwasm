@@ -49,7 +49,6 @@ self.onmessage = function (e) {
     try {
       FS.writeFile("/INPUT.ROM", inputRomArray);
       FS.writeFile("/patch.txt", patchesTxt);
-      console.log("Input and patch written to virtual FS.");
     } catch (e) {
       //clean up FS, log error if it fails
       console.log("Writing input and/or patch to virtual FS failed.");
@@ -62,7 +61,17 @@ self.onmessage = function (e) {
     }
     //actually call the wasm module from the worker thread,
     //preventing the main thread from being blocked
-    Module.ccall("runPatch", null, [], []);
+    try {
+      Module.ccall("runPatch", null, [], []);
+    } catch (e) {
+      console.log("Calling runPatch failed.");
+      fsCleanup();
+      postMessage({
+        type: "error",
+        text: "Could not run patch.",
+      });
+      return;
+    }
     // attempt to read the output ROM after the module finishes
     try {
       var outputData = FS.readFile("/OUTPUT.ROM");

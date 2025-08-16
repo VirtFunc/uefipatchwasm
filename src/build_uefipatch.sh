@@ -32,12 +32,9 @@ mkdir -p /opt/qt5-wasm/src/plugins/platforms/wasm/
 # </svg>
 # EOF
 
-tee /opt/qt5-wasm/src/plugins/platforms/wasm/wasm_shell.html > /dev/null <<'EOF'
-EOF
-tee /opt/qt5-wasm/src/plugins/platforms/wasm/qtloader.js > /dev/null <<'EOF'
-EOF
-tee /opt/qt5-wasm/src/plugins/platforms/wasm/qtlogo.svg > /dev/null <<'EOF'
-EOF
+touch /opt/qt5-wasm/src/plugins/platforms/wasm/wasm_shell.html
+touch /opt/qt5-wasm/src/plugins/platforms/wasm/qtloader.js
+touch /opt/qt5-wasm/src/plugins/platforms/wasm/qtlogo.svg
 
 /opt/qt5-wasm/bin/qmake
 make -j$(nproc)
