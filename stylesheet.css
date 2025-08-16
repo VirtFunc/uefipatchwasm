@@ -1,0 +1,68 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    background-color: black;
+    color: #00ff00;
+    font-family: monospace;
+}
+html {
+    font-size: 130%;
+}
+
+#wasm-progress-container {
+    width: 12rem;
+}
+
+.progress-border {
+    border: 1px solid #ccc;
+}
+
+#wasm-progress-bar {
+    width: 0%;
+    height: 1rem;
+    background-color: #00ff00;
+    transition: width;
+}
+h1,
+h2 {
+    margin-top: 0;
+}
+#main {
+    display: inline-block;
+    padding: 1rem;
+    padding-top: 0.5rem;
+}
+textarea {
+    width: 100%;
+}
+a {
+    text-decoration: none;
+    color: white;
+}
+a:hover {
+    text-decoration: underline;
+}
+a:visited {
+    color: white;
+}
+#input-rom {
+    margin-top: 1rem;
+}
+
+input[type="checkbox"] {
+    margin-right: 1rem;
+}
+.title {
+    margin-bottom: 1rem;
+}
+
+#patches-selector {
+    display: inline-block;
+    //margin-bottom: 1rem;
+}
+
+#custom-patches {
+    margin-bottom: 1rem;
+}
