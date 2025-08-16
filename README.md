@@ -26,14 +26,14 @@ docker build --network host -t qt-wasm-builder .
 
 This process will take a while as it downloads and compiles both Emscripten and Qt.
 
-## Running the container + build (omit /src/build_uefipatch.sh for a shell)
+## Running the container + build UEFIPatch (omit /src/build_uefipatch.sh for a shell)
 
 ```bash
 docker run -it --rm -v $(pwd):/src qt-wasm-builder /src/build_uefipatch.sh
 ```
-## Reset / Delete the build environment
 
-# Commands to completely remove and rebuild the Docker image:
+
+## Reset / Delete the build environment
 
 ## Remove any containers based on the image (if any)
 ```bash
