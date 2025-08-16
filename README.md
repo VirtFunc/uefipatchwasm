@@ -1,6 +1,6 @@
 # Qt for wasm Docker build environment
 
-This directory contains a `Dockerfile` to create a Docker image for building Qt 5.15.15 console applications for WebAssembly using Emscripten SDK 1.39.8.
+This directory contains a `Dockerfile` to create a Docker image for building UEFIPatch 0.28.0 for wasm.
 
 ## simple build
 
