@@ -84,7 +84,6 @@ RUN /bin/bash -c " \
     -no-feature-xml \
     -no-feature-accessibility \
     -no-feature-concurrent \
-    
     -skip qt3d \
     -skip qtactiveqt \
     -skip qtandroidextras \
