@@ -2,7 +2,7 @@
 # to be run in docker, exit if not in docker
 if [ ! -f /.dockerenv ]; then
   echo "This script must be run inside a Docker container."
-  echo "Please use ./full_build.sh or see other uses in the README"
+  echo "Please use ./build.sh or see other uses in the README"
   exit 1
 fi
 

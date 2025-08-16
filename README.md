@@ -12,7 +12,7 @@ Just run
 ```bash
 git clone https://github.com/VirtFunc/uefipatchwasm.git
 cd uefipatchwasm/src
-./fullbuild.sh
+./build.sh
 ```
 
 ## (alternative) Building the Docker image
