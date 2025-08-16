@@ -14,6 +14,10 @@ function buildPatches(patches) {
     checkbox.setAttribute("data-patchname", patch.name);
     patchDiv.appendChild(checkbox);
 
+    const nameElement = document.createElement("strong");
+    nameElement.textContent = patch.name + ": ";
+    patchDiv.appendChild(nameElement);
+
     const description = document.createElement("span");
     description.innerHTML = patch.description;
     patchDiv.appendChild(description);
@@ -152,9 +156,6 @@ document.addEventListener("drop", (e) => {
   e.preventDefault();
   document.body.style.backgroundColor = "";
   document.getElementById("input-rom").files = e.dataTransfer.files;
-});
-document.addEventListener("DOMContentLoaded", function () {
-  refreshPatches();
 });
 document
   .querySelector('textarea[data-patchname="custom"]')
