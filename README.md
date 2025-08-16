@@ -1,12 +1,17 @@
-# Qt for wasm Docker build environment
+# UEFIPatch wasm Docker build environment
 
-This directory contains a `Dockerfile` to create a Docker image for building UEFIPatch 0.28.0 for wasm.
+This repo contains a `Dockerfile` to create a Docker image for building UEFIPatch 0.28.0 for wasm. It also contains a goofy front end for it.
 
-## simple build
+## binaries
+
+Hosted at https://uefipatch.virtfunc.com/
+
+## quick build
 
 Just run 
 ```bash
-cd src
+git clone https://github.com/VirtFunc/uefipatchwasm.git
+cd uefipatchwasm/src
 ./fullbuild.sh
 ```
 
