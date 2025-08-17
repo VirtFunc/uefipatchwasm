@@ -11,6 +11,11 @@ input_file="$1"
 base_name="${input_file%.*}"
 output_file="${base_name}_newline.txt"
 
+# Ensure the file ends with a newline
+if [ -n "$(tail -c 1 "$input_file")" ]; then
+    echo >> "$input_file"
+fi
+
 # Replace line breaks with \n and save to new file
 sed ':a;N;$!ba;s/\n/\\n/g' "$input_file" > "$output_file"
 

@@ -64,6 +64,7 @@ input[type="checkbox"] {
 }
 
 #custom-patches {
+    margin-top: 1rem;   /* added gap before custom-patches */
     margin-bottom: 1rem;
 }
 pre, textarea {

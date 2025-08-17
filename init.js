@@ -154,6 +154,17 @@ function refreshPatches() {
     }
   }
   document.getElementById("patches-txt").innerText = patchesTxt;
+
+  // Show/hide custom patches textarea based on the custom checkbox
+  const customCheckbox = document.querySelector(
+    'input[type="checkbox"][data-patchname="custom"]',
+  );
+  const customTextarea = document.querySelector(
+    'textarea[data-patchname="custom"]',
+  );
+  if (customTextarea) {
+    customTextarea.style.display = customCheckbox.checked ? "block" : "none";
+  }
 }
 
 // given some fetched patches, build the UI elements for each patch
