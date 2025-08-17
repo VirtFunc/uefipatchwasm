@@ -8,48 +8,61 @@
   </head>
   <body style="background-color: black;" onload="init()">
     <div id="main">
-      <h2>Wasm UEFIPatch</h2>
-      <div id="wasm-progress-container">
-          <div class="progress-border">
-              <div id="wasm-progress-bar"></div>
+      <div id="left-panel">
+        <h2>Wasm UEFIPatch</h2>
+        <div style="display: flex; align-items: center;">
+          <div>
+            <p class="title"><strong>Instructions:</strong></p>
+            <ol>
+          <li>Configure patches.</li>
+          <li>Load your firmware.</li>
+          <li>Click "Patch".</li>
+            </ol>
           </div>
-          <div id="wasm-progress-text"></div>
-      </div>
-      <p class="title"><strong>Instructions:</strong></p>
-      <ol>
-        <li>Load your firmware.</li>
-        <li>Configure patches.</li>
-        <li>Click "Patch".</li>
-      </ol>
-      <p class="title"><strong>Notes:</strong></p>
-      <ul>
-          <li>Modified and compiled by <a href="https://virtfunc.com" target="_blank">VirtFunc</a>.</li>
-          <li>Uses <a href="https://github.com/LongSoft/UEFITool/blob/old_engine/UEFIPatch/" target="_blank">UEFIPatch</a> under the hood. Upstream License: <a href="https://github.com/LongSoft/UEFITool?tab=BSD-2-Clause-1-ov-file" target="_blank">BSD-2-Clause</a>.</li>
-          <li>Source: <a href="https://github.com/VirtFunc/uefipatchwasm" target="_blank">GitHub: VirtFunc/uefipatchwasm</a>.</li>
-          <li>Wasm module is ~3MiB, may load slowly as a result.</li>
-          <li>Old UEFITool engine is used, it has been known to <a target="_blank" href="https://github.com/LongSoft/UEFITool/issues/192">break some firmware images</a>. Proceed only if you have recovery method (or don't care).</li>
-          <li>Performance is roughly 80% of the CLI version, due to Wasm overhead. Firefox is much slower in my experience.</li>
-      </ul>
-      <label for="input-rom"><strong>Choose Firmware: </strong>(or drag and drop on the page)<br></label>
-      <input type="file" id="input-rom" accept=".rom,.bin,.hex,.fw,.img,.bin,.iso,">
-      <br>
-      <div id="patches-selector">
-        <p><strong>Patches:</strong></p>
-        <div id="preset-patches"></div>
-
-        <div id="custom-patches">
-          <input type="checkbox" data-patchname="custom"><strong>Custom: </strong>Add your own patches. 
-            <a href="https://raw.githubusercontent.com/LongSoft/UEFITool/refs/heads/old_engine/UEFIPatch/patches.txt" target="_blank">Patch Format Guide</a>.
-          </input>
+          <div id="wasm-progress-container" style="margin-left: 20px;">
+            <div class="progress-border">
+          <div id="wasm-progress-bar"></div>
+            </div>
+            <div id="wasm-progress-text"></div>
+          </div>
         </div>
-        <textarea id="custom-patch" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' data-patchname="custom" placeholder="Enter custom patches here"></textarea>
+        <h3 class="title">Notes:</h3>
+        <ul>
+            <li>Modified and compiled by <a href="https://virtfunc.com" target="_blank">VirtFunc</a>.</li>
+            <li>Uses <a href="https://github.com/LongSoft/UEFITool/blob/old_engine/UEFIPatch/" target="_blank">UEFIPatch</a> under the hood. Upstream License: <a href="https://github.com/LongSoft/UEFITool?tab=BSD-2-Clause-1-ov-file" target="_blank">BSD-2-Clause</a>.</li>
+            <li>Source: <a href="https://github.com/VirtFunc/uefipatchwasm" target="_blank">GitHub: VirtFunc/uefipatchwasm</a>.</li>
+            <li>Wasm module is ~3MiB, may load slowly as a result.</li>
+            <li>Old UEFITool engine is used, it has been known to <a target="_blank" href="https://github.com/LongSoft/UEFITool/issues/192">break some firmware images</a>. Proceed only if you have recovery method (or don't care).</li>
+            <li>Performance is roughly 80% of the CLI version, due to Wasm overhead. Firefox is much slower in my experience.</li>
+        </ul>
+
+        <div id="patches-selector">
+          <h3>Patches:</h3>
+          <div id="preset-patches"></div>
+
+          <div id="custom-patches">
+            <input type="checkbox" data-patchname="custom"><strong>Custom: </strong>Add your own patches. 
+              <a href="https://raw.githubusercontent.com/LongSoft/UEFITool/refs/heads/old_engine/UEFIPatch/patches.txt" target="_blank">Patch Format Guide</a>.
+            </input>
+              <textarea id="custom-patches" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' data-patchname="custom" placeholder="Enter custom patches here" style=""></textarea>
+          </div>
+          
+        </div>
+        <div id="file-inputs">
+          <h3>Load Firmware (or drag and drop):</h3>
+            <input type="file" id="input-rom" accept=".rom,.bin,.hex,.fw,.img,.bin,.iso,">
+        </div>
+        <div>
+          <button id="run-patch">Patch</button>
+        </div>
       </div>
-      <div id="patch-and-output">
-        <button id="run-patch">Patch</button>
+      <div id="patches-and-output">
+        <!-- <h3>Patch:</h3> -->
+        <p><strong>Output:</strong></p>
+        <pre id="output"></pre>
         <p><strong>Pending patches:</strong></p>
         <pre id="patches-txt"></pre>
-        <p><strong>Output</strong></p>
-        <pre id="output"></pre>
+
       </div>
     </div>
     <figure style="overflow:visible;">

@@ -11,8 +11,13 @@ html {
     font-size: 130%;
 }
 
+:root {
+  --panel-left: 40%;  /* only value you need to tweak */
+  --gap: 2rem;
+}
+
 #wasm-progress-container {
-    width: 12rem;
+    width: 8rem;
 }
 
 .progress-border {
@@ -30,9 +35,23 @@ h2 {
     margin-top: 0;
 }
 #main {
-    display: inline-block;
-    padding: 1rem;
-    padding-top: 0.5rem;
+  /* two‐column layout: left = var(--panel-left), right = auto */
+  display: grid;
+  grid-template-columns: var(--panel-left) 1fr;
+  column-gap: var(--gap);
+
+  /* keep your padding */
+  padding: 1rem;
+  padding-top: 0.5rem;
+
+  /* remove old width/margin-right */
+}
+#main > #patches-and-output {
+  /* force the output panel into col 2 spanning all rows */
+  grid-column: 2;
+  grid-row: 1 / -1;
+
+  /* remove old display, width, margin-left */
 }
 textarea {
     width: 100%;
@@ -47,25 +66,16 @@ a:hover {
 a:visited {
     color: white;
 }
-#input-rom {
-    margin-top: 1rem;
-}
 
 input[type="checkbox"] {
     margin-right: 1rem;
 }
-.title {
-    margin-bottom: 1rem;
-}
 
-#patches-selector {
-    display: inline-block;
-    margin-bottom: 1rem;
+#custom-patches, #patches-and-output, #run-patch {
+    margin-top: 1rem;   
 }
-
-#custom-patches {
-    margin-top: 1rem;   /* added gap before custom-patches */
-    margin-bottom: 1rem;
+textarea#custom-patches {
+    display: none;
 }
 pre, textarea {
     white-space: pre-wrap;
