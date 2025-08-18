@@ -5,10 +5,19 @@ var patchMapping = {};
 function init() {
   var status = document.querySelector("#status");
   var output = document.getElementById("output");
-  var worker = new Worker("worker.js");
-  // inform the user that the worker is not ready. loading from network.
+  // bootstrap worker just to get initial wasm ready state
+  var bootstrapWorker = new Worker("worker.js");
   patchButtonState("Loading...", true);
-  worker.onmessage = function (e) {
+  // track active patch workers
+  let activeWorkers = 0;
+  function updateButtonPatchingState() {
+    if (activeWorkers > 0) {
+      patchButtonState(`Patching (${activeWorkers} remaining)...`, true);
+    } else {
+      patchButtonState("Patch", false);
+    }
+  }
+  bootstrapWorker.onmessage = function (e) {
     switch (e.data.type) {
       case "wasmProgress":
         //console.log(`Wasm loading progress: ${e.data.progress}%`);
@@ -28,7 +37,7 @@ function init() {
         break;
 
       case "ready":
-        // enable the patch button
+        // initial ready enabling
         patchButtonState("Patch", false);
         break;
       case "error":
@@ -39,23 +48,7 @@ function init() {
       case "stderr":
         output.innerHTML += e.data.text + "\n";
         break;
-      case "complete":
-        // when we are done, extract the output file from the worker, save it to the user's machine
-        // then reset the system for the next patch by enabling the patch button.
-        var blob = new Blob([e.data.data], {
-          type: "application/octet-stream",
-        });
-        // get file name from the input rom file name and add _patched to the filename before extension
-        var inputRomName = document.getElementById("input-rom").files[0].name;
-        var outputRomName = inputRomName.replace(/(\.[^/.]+)+$/, "_patched$1");
-        var url = URL.createObjectURL(blob);
-        var a = document.createElement("a");
-        a.href = url;
-        a.download = outputRomName;
-        a.click();
-        URL.revokeObjectURL(url);
-        patchButtonState("Patch", false);
-        break;
+      // ignore complete from bootstrap (it never runs patches)
     }
   };
 
@@ -80,23 +73,83 @@ function init() {
   document.getElementById("run-patch").addEventListener("click", function () {
     output.innerText = "";
     status.innerText = "";
-    var inputRom = document.getElementById("input-rom").files[0];
-    var patchesTxt = document.getElementById("patches-txt").innerText;
-    if (inputRom) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        var inputRomArray = new Uint8Array(e.target.result);
-        patchButtonState("Patching...", true);
-        worker.postMessage({
-          type: "runPatch",
-          inputRomArray: inputRomArray,
-          patchesTxt: patchesTxt,
-        });
-      };
-      reader.readAsArrayBuffer(inputRom);
-    } else {
-      alert("Please select an INPUT.ROM file.");
+    const fileList = document.getElementById("input-rom").files;
+    if (!fileList || fileList.length === 0) {
+      alert("Please select at least one firmware file.");
+      return;
     }
+    const patchesTxt = document.getElementById("patches-txt").innerText;
+    activeWorkers = fileList.length;
+    updateButtonPatchingState();
+
+    Array.from(fileList).forEach((file) => {
+      const worker = new Worker("worker.js");
+      const state = { workerReady: false, buffer: null, finished: false };
+
+      function finishWorker() {
+        if (!state.finished) {
+          state.finished = true;
+          activeWorkers--;
+          updateButtonPatchingState();
+        }
+      }
+
+      function maybeStart() {
+        if (state.workerReady && state.buffer) {
+          output.innerHTML += `[${file.name}] Starting patch...\n`;
+          worker.postMessage({
+            type: "runPatch",
+            inputRomArray: state.buffer,
+            patchesTxt: patchesTxt,
+          });
+        }
+      }
+
+      // read the file
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        state.buffer = new Uint8Array(e.target.result);
+        maybeStart();
+      };
+      reader.onerror = function () {
+        output.innerHTML += `[${file.name}] ERROR: File read failed.\n`;
+        finishWorker();
+      };
+      reader.readAsArrayBuffer(file);
+
+      worker.onmessage = function (e) {
+        switch (e.data.type) {
+          case "wasmProgress":
+            //output.innerHTML += `[${file.name}] Wasm ${e.data.progress}%\n`;
+            break;
+          case "ready":
+            state.workerReady = true;
+            maybeStart();
+            break;
+          case "stdout":
+          case "stderr":
+            output.innerHTML += `[${file.name}] ${e.data.text}\n`;
+            break;
+          case "error":
+            output.innerHTML += `[${file.name}] ERROR: ${e.data.text}\n`;
+            finishWorker();
+            break;
+          case "complete":
+            // download output
+            const blob = new Blob([e.data.data], { type: "application/octet-stream" });
+            const outputRomName = file.name.replace(/(\.[^/.]+)+$/, "_patched$1");
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = outputRomName === file.name ? file.name + "_patched" : outputRomName;
+            a.click();
+            URL.revokeObjectURL(url);
+            output.innerHTML += `[${file.name}] Patch complete -> ${a.download}\n`;
+            finishWorker();
+            break;
+        }
+      };
+    });
   });
 
     // patch checkbox listener -> update patches
