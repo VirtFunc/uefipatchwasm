@@ -40,6 +40,10 @@ RUN git clone https://github.com/emscripten-core/emsdk.git && \
     ./emsdk install ${EMSDK_VERSION} && \
     ./emsdk activate ${EMSDK_VERSION}
 
+# Automatically load emsdk environment for every subsequent RUN
+RUN echo 'source /opt/emsdk/emsdk_env.sh >/dev/null 2>&1' > /etc/profile.d/emsdk.sh
+SHELL ["/bin/bash","-lc"]
+
 # Set up Qt
 ENV QT_VERSION=5.15.15
 ENV QT_VERSION_MAJOR_MINOR=5.15
@@ -51,24 +55,9 @@ RUN wget https://download.qt.io/official_releases/qt/${QT_VERSION_MAJOR_MINOR}/$
     tar xf qt-everywhere-opensource-src-${QT_VERSION}.tar.xz && \
     rm qt-everywhere-opensource-src-${QT_VERSION}.tar.xz
 
-# Build and install Qt for wasm in a single step to ensure env persistence
-RUN /bin/bash -c " \
-    echo '--- DIAGNOSTICS ---' && \
-    echo 'Initial PATH:' && \
-    echo \$PATH && \
-    echo '--- Sourcing Emscripten environment ---' && \
-    source /opt/emsdk/emsdk_env.sh && \
-    echo 'PATH after sourcing:' && \
-    echo \$PATH && \
-    echo '--- Checking for em++ ---' && \
-    which em++ && \
-    em++ --version && \
-    echo '--- Filesystem check ---' && \
-    ls -la /opt/emsdk/upstream/emscripten && \
-    echo '--- END DIAGNOSTICS ---' && \
-    echo '--- Configuring Qt ---' && \
-    cd /opt/qt-everywhere-src-${QT_VERSION} && \
-    ./configure -v -opensource -confirm-license \
+# Build and install Qt for wasm in multiple steps (no need to 'source' each time now)
+RUN echo '--- DIAGNOSTICS ---' && echo 'PATH:' && echo $PATH && echo '--- Checking for em++ ---' && which em++ && em++ --version && echo '--- Filesystem check ---' && ls -la /opt/emsdk/upstream/emscripten && echo '--- END DIAGNOSTICS ---'
+RUN echo '--- Configuring Qt ---' && cd /opt/qt-everywhere-src-${QT_VERSION} && ./configure -v -opensource -confirm-license \
     -xplatform wasm-emscripten \
     -no-warnings-are-errors \
     -prefix ${QT_WASM_PREFIX} \
@@ -124,14 +113,10 @@ RUN /bin/bash -c " \
     -skip qtwebview \
     -skip qtwinextras \
     -skip qtx11extras \
-    -skip qtxmlpatterns && \
-    echo '--- Building Qt ---' && \
-    make -j\$(nproc) && \
-    echo '--- Installing Qt ---' && \
-    make install && \
-    echo '--- Cleaning up ---' && \
-    cd /opt && rm -rf /opt/qt-everywhere-src-${QT_VERSION} \
-"
+    -skip qtxmlpatterns
+RUN echo '--- Building Qt ---' && cd /opt/qt-everywhere-src-${QT_VERSION} && make -j$(nproc)
+RUN echo '--- Installing Qt ---' && cd /opt/qt-everywhere-src-${QT_VERSION} && make install
+RUN echo '--- Cleaning up ---' && rm -rf /opt/qt-everywhere-src-${QT_VERSION}
 
 # Set up environment for wasm builds
 ENV PATH="/opt/emsdk:/opt/emsdk/upstream/emscripten:${QT_WASM_PREFIX}/bin:${PATH}"
