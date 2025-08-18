@@ -56,15 +56,16 @@ RUN wget https://download.qt.io/official_releases/qt/${QT_VERSION_MAJOR_MINOR}/$
     rm qt-everywhere-opensource-src-${QT_VERSION}.tar.xz
 
 # Build and install Qt for wasm in multiple steps (no need to 'source' each time now)
-RUN echo '--- DIAGNOSTICS ---' && echo 'PATH:' && echo $PATH && echo '--- Checking for em++ ---' && which em++ && em++ --version && echo '--- Filesystem check ---' && ls -la /opt/emsdk/upstream/emscripten && echo '--- END DIAGNOSTICS ---'
-RUN echo '--- Configuring Qt ---' && cd /opt/qt-everywhere-src-${QT_VERSION} && ./configure -v -opensource -confirm-license \
+RUN which em++ && em++ --version && ls -la /opt/emsdk/upstream/emscripten
+RUN cd /opt/qt-everywhere-src-${QT_VERSION} && ./configure -v -opensource -confirm-license \
     -xplatform wasm-emscripten \
     -no-warnings-are-errors \
     -prefix ${QT_WASM_PREFIX} \
     -release \
     -static \
+    -nomake tests -nomake examples \
+    -no-dbus \
     -no-feature-testlib \
-    -no-feature-dbus \
     -no-feature-widgets \
     -no-feature-gui \
     -no-feature-opengl \
@@ -75,6 +76,7 @@ RUN echo '--- Configuring Qt ---' && cd /opt/qt-everywhere-src-${QT_VERSION} && 
     -no-feature-accessibility \
     -no-feature-concurrent \
     -skip qt3d \
+    -skip qtquick3d \
     -skip qtactiveqt \
     -skip qtandroidextras \
     -skip qtcanvas3d \
@@ -113,10 +115,11 @@ RUN echo '--- Configuring Qt ---' && cd /opt/qt-everywhere-src-${QT_VERSION} && 
     -skip qtwebview \
     -skip qtwinextras \
     -skip qtx11extras \
-    -skip qtxmlpatterns
-RUN echo '--- Building Qt ---' && cd /opt/qt-everywhere-src-${QT_VERSION} && make -j$(nproc)
-RUN echo '--- Installing Qt ---' && cd /opt/qt-everywhere-src-${QT_VERSION} && make install
-RUN echo '--- Cleaning up ---' && rm -rf /opt/qt-everywhere-src-${QT_VERSION}
+    -skip qtxmlpatterns \
+    -skip qtdeclarative
+RUN cd /opt/qt-everywhere-src-${QT_VERSION} && make -j$(nproc)
+RUN cd /opt/qt-everywhere-src-${QT_VERSION} && make install
+RUN rm -rf /opt/qt-everywhere-src-${QT_VERSION}
 
 # Set up environment for wasm builds
 ENV PATH="/opt/emsdk:/opt/emsdk/upstream/emscripten:${QT_WASM_PREFIX}/bin:${PATH}"
