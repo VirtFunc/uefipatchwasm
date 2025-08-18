@@ -1,5 +1,5 @@
 # Use a stable base image
-FROM debian:bullseye
+FROM debian:trixie
 
 # Set environment variables to non-interactive
 ENV DEBIAN_FRONTEND=noninteractive
@@ -8,7 +8,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     git \
-    python \
+    python-is-python3 \
+    python3-setuptools \
     wget \
     xz-utils \
     ca-certificates \

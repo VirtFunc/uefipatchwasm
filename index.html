@@ -14,9 +14,9 @@
           <div>
             <p class="title"><strong>Instructions:</strong></p>
             <ol>
-          <li>Configure patches.</li>
-          <li>Load your firmware.</li>
-          <li>Click "Patch".</li>
+              <li>Configure patches.</li>
+              <li>Load your firmware.</li>
+              <li>Click "Patch".</li>
             </ol>
           </div>
           <div id="wasm-progress-container" style="margin-left: 20px;">
@@ -38,15 +38,13 @@
 
         <div id="patches-selector">
           <h3>Patches:</h3>
-          <div id="preset-patches"></div>
-
+          <div id="preset-patches"></div> <!-- these are runtime loaded. -->
           <div id="custom-patches">
             <input type="checkbox" data-patchname="custom"><strong>Custom: </strong>Add your own patches. 
               <a href="https://raw.githubusercontent.com/LongSoft/UEFITool/refs/heads/old_engine/UEFIPatch/patches.txt" target="_blank">Patch Format Guide</a>.
             </input>
               <textarea id="custom-patches" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' data-patchname="custom" placeholder="Enter custom patches here" style=""></textarea>
           </div>
-          
         </div>
         <div id="file-inputs">
           <h3>Load Firmware (or drag and drop):</h3>
