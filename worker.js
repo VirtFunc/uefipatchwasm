@@ -411,18 +411,10 @@ Loader.loadModule("UEFIPatch");
 //handle passed message
 self.onmessage = function (e) {
   if (e.data.type === "runPatch") {
+    //get the inputs
     var inputRomArray = e.data.inputRomArray;
     var patchesTxt = e.data.patchesTxt;
-
-    // NEW: validate buffer before touching FS
-    if (!(inputRomArray instanceof Uint8Array) || inputRomArray.length === 0) {
-      postMessage({
-        type: "error",
-        text: "Input buffer not ready (empty or invalid).",
-      });
-      return;
-    }
-
+    //attempt to write the inputs to the virtual FS,
     try {
       FS.writeFile("/INPUT.ROM", inputRomArray);
       FS.writeFile("/patch.txt", patchesTxt);
