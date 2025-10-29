@@ -45,13 +45,13 @@ RUN echo 'source /opt/emsdk/emsdk_env.sh >/dev/null 2>&1' > /etc/profile.d/emsdk
 SHELL ["/bin/bash","-lc"]
 
 # Set up Qt
-ENV QT_VERSION=5.15.15
+ENV QT_VERSION=5.15.17
 ENV QT_VERSION_MAJOR_MINOR=5.15
 ENV QT_SRC_DIR=/opt/qt-everywhere-src-${QT_VERSION}
 ENV QT_WASM_PREFIX=/opt/qt5-wasm
 
-# Download and extract Qt source
-RUN wget https://download.qt.io/official_releases/qt/${QT_VERSION_MAJOR_MINOR}/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.xz && \
+# Download and extract Qt source (5.15 is archived now...)
+RUN wget https://download.qt.io/archive/qt/${QT_VERSION_MAJOR_MINOR}/${QT_VERSION}/single/qt-everywhere-opensource-src-${QT_VERSION}.tar.xz && \
     tar xf qt-everywhere-opensource-src-${QT_VERSION}.tar.xz && \
     rm qt-everywhere-opensource-src-${QT_VERSION}.tar.xz
 
