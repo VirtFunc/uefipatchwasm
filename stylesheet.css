@@ -23,11 +23,6 @@ html {
     transition: width;
 }
 
-#about {
-    display:none;
-}
-
-
 textarea {
     width: 100%;
 }
