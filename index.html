@@ -7,36 +7,16 @@
     <link rel="stylesheet" href="stylesheet.css">
   </head>
   <body style="background-color: black;" onload="init()">
-    <h2 id="title">Wasm UEFIPatch</h2>
+    <h2 id="title">Wasm UEFIPatch </h2><a target="_blank" href="about.html">About</a>
+                <div id="wasm-progress-container" style="margin-left: 20px;">
+              <div class="progress-border">
+            <div id="wasm-progress-bar"></div>
+              </div>
+              <div id="wasm-progress-text"></div>
+            </div>
     <div id="main">
       
       <div id="left-panel">
-        <div style="display: flex; align-items: center;">
-          <div>
-            <h3>Instructions:</h3>
-            <ol>
-              <li>Configure patches.</li>
-              <li>Load your firmware.</li>
-              <li>Click "Patch".</li>
-            </ol>
-          </div>
-          <div id="wasm-progress-container" style="margin-left: 20px;">
-            <div class="progress-border">
-          <div id="wasm-progress-bar"></div>
-            </div>
-            <div id="wasm-progress-text"></div>
-          </div>
-        </div>
-        <h3 class="title">Notes:</h3>
-        <ul>
-            <li>Modified and compiled by <a href="https://virtfunc.com" target="_blank">VirtFunc</a>.</li>
-            <li>Uses <a href="https://github.com/LongSoft/UEFITool/blob/old_engine/UEFIPatch/" target="_blank">UEFIPatch</a> under the hood. Upstream License: <a href="https://github.com/LongSoft/UEFITool?tab=BSD-2-Clause-1-ov-file" target="_blank">BSD-2-Clause</a>.</li>
-            <li>Source: <a href="https://github.com/VirtFunc/uefipatchwasm" target="_blank">GitHub: VirtFunc/uefipatchwasm</a>.</li>
-            <li>Wasm module is ~3MiB, may load slowly as a result.</li>
-            <li>Old UEFITool engine is used, it has been known to <a target="_blank" href="https://github.com/LongSoft/UEFITool/issues/192">break some firmware images</a>. Proceed only if you have recovery method (or don't care).</li>
-            <li>Performance is roughly 80% of the CLI version, due to Wasm overhead. Firefox is much slower in my experience.</li>
-        </ul>
-
         <div id="patches-selector">
           <h3>Patches:</h3>
           <div id="preset-patches"></div> <!-- these are runtime loaded. -->
@@ -56,11 +36,11 @@
         </div>
       </div>
       <div id="patches-and-output">
-        <!-- <h3>Patch:</h3> -->
-        <h3>Output:</h3>
-        <pre id="output"></pre>
         <h3>Pending patches:</h3>
         <pre id="patches-txt"></pre>
+        <h3>Output:</h3>
+        <pre id="output"></pre>
+
 
       </div>
     </div>
