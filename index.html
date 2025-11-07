@@ -1,53 +1,58 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Wasm UEFIPatch</title>
-    <link rel="stylesheet" href="stylesheet.css">
-  </head>
-  <body style="background-color: black;" onload="init()">
-    <h2 id="title">Wasm UEFIPatch </h2><a target="_blank" href="about.html">About</a>
-                <div id="wasm-progress-container" style="margin-left: 20px;">
-              <div class="progress-border">
-            <div id="wasm-progress-bar"></div>
-              </div>
-              <div id="wasm-progress-text"></div>
-            </div>
-    <div id="main">
-      
-      <div id="left-panel">
-        <div id="patches-selector">
-          <h3>Patches:</h3>
-          <div id="preset-patches"></div> <!-- these are runtime loaded. -->
-          <div id="custom-patches">
-            <input type="checkbox" data-patchname="custom"><strong>Custom: </strong>Add your own patches. 
-              <a href="https://raw.githubusercontent.com/LongSoft/UEFITool/refs/heads/old_engine/UEFIPatch/patches.txt" target="_blank">Patch Format Guide</a>.
-            </input>
-              <textarea id="custom-patches" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' data-patchname="custom" placeholder="Enter custom patches here"></textarea>
-          </div>
-        </div>
-        <div id="file-inputs">
-          <h3>Load Firmware (or drag and drop):</h3>
-            <input type="file" id="input-rom" accept=".rom,.bin,.hex,.fw,.img,.bin,.iso,">
-        </div>
-        <div>
-          <button id="run-patch">Patch</button>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Wasm UEFIPatch</title>
+  <link rel="stylesheet" href="stylesheet.css">
+</head>
+
+<body style="background-color: black;" onload="init()">
+  <h2 id="title">Wasm UEFIPatch </h2><a target="_blank" href="about.html">About</a>
+  <div id="wasm-progress-container" style="margin-left: 20px;">
+    <div class="progress-border">
+      <div id="wasm-progress-bar"></div>
+    </div>
+    <div id="wasm-progress-text"></div>
+  </div>
+  <div id="main">
+
+    <div id="left-panel">
+      <div id="patches-selector">
+        <h3>Patches:</h3>
+        <div id="preset-patches"></div> <!-- these are runtime loaded. -->
+        <div id="custom-patches">
+          <input type="checkbox" data-patchname="custom"><strong>Custom: </strong>Add your own patches.
+          <a href="https://raw.githubusercontent.com/LongSoft/UEFITool/refs/heads/old_engine/UEFIPatch/patches.txt"
+            target="_blank">Patch Format Guide</a>.
+          </input>
+          <textarea id="custom-patches" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+            data-patchname="custom" placeholder="Enter custom patches here"></textarea>
         </div>
       </div>
-      <div id="patches-and-output">
-        <h3>Pending patches:</h3>
-        <pre id="patches-txt"></pre>
-        <h3>Output:</h3>
-        <pre id="output"></pre>
-
-
+      <div id="file-inputs">
+        <h3>Load Firmware (or drag and drop):</h3>
+        <input type="file" id="input-rom" accept=".rom,.bin,.hex,.fw,.img,.bin,.iso,">
+      </div>
+      <div>
+        <button id="run-patch">Patch</button>
       </div>
     </div>
-    <figure style="overflow:visible;">
-        <div id="status"></div>
-        <noscript>JavaScript is disabled. Enable JavaScript and WASM to use UEFIPatch.</noscript>
-    </figure>
-    <script src="init.js"></script>
-  </body>
+    <div id="patches-and-output">
+      <h3>Pending patches:</h3>
+      <pre id="patches-txt"></pre>
+      <h3>Output:</h3>
+      <pre id="output"></pre>
+
+
+    </div>
+  </div>
+  <figure style="overflow:visible;">
+    <div id="status"></div>
+    <noscript>JavaScript is disabled. Enable JavaScript and WASM to use UEFIPatch.</noscript>
+  </figure>
+  <script src="init.js"></script>
+</body>
+
 </html>
