@@ -7,9 +7,22 @@ body {
 html {
     font-size: 130%;
 }
+.no-top {
+    padding-top:0;
+    margin-top:0;
+}
+.no-bottom {
+    padding-bottom:0;
+    margin-bottom:0;
+}
+
+.title-width {
+    display: inline-block;
+}
 
 #wasm-progress-container {
-    width: 8rem;
+    padding-top:1rem;
+    display: inline-block;
 }
 
 .progress-border {
@@ -17,16 +30,21 @@ html {
 }
 
 #wasm-progress-bar {
-    width: 0%;
     height: 1rem;
     background-color: #00ff00;
     transition: width;
+}
+#about {
+  display: none;
+}
+#toggleAbout:checked + #about {
+  display: block;
 }
 
 textarea {
     width: 100%;
 }
-a {
+a, .link {
     text-decoration: none;
     color: white;
 }

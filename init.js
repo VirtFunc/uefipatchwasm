@@ -23,6 +23,9 @@ function init() {
           if (e.data.progress >= 100) {
             progressBar.parentElement.style.display = "none";
             progressText.style.display = "none";
+            document.querySelectorAll('#wasm-progress-container').forEach(el => {
+              el.style.display = 'none';
+            });
           }
         }
         break;
@@ -76,7 +79,7 @@ function init() {
 
 
   // EVENT LISTENERS
-    // patch button listener
+  // patch button listener
   document.getElementById("run-patch").addEventListener("click", function () {
     output.innerText = "";
     status.innerText = "";
@@ -99,41 +102,41 @@ function init() {
     }
   });
 
-    // patch checkbox listener -> update patches
+  // patch checkbox listener -> update patches
   document
     .getElementById("patches-selector")
     .addEventListener("click", function (e) {
       if (e.target.type === "checkbox") {
         refreshPatches();
       }
-  });
-    // when custom patches textbox is updated, refresh the patches.
+    });
+  // when custom patches textbox is updated, refresh the patches.
   document
     .querySelector('textarea[data-patchname="custom"]')
     .addEventListener("input", function () {
       //console.log("Custom patches updated");
       refreshPatches();
-  });
-    // drag file listener
+    });
+  // drag file listener
   document
-  .addEventListener("dragover", (e) => {
-    e.preventDefault();
-    if (e.dataTransfer.types.includes("Files")) {
-      document.body.style.backgroundColor = "#0000e1"; // Change to whatever color you want
-    }
-  });
-    // watch for leaving the drop zone
+    .addEventListener("dragover", (e) => {
+      e.preventDefault();
+      if (e.dataTransfer.types.includes("Files")) {
+        document.body.style.backgroundColor = "#0000e1"; // Change to whatever color you want
+      }
+    });
+  // watch for leaving the drop zone
   document
     .addEventListener("dragleave", (e) => {
       document.body.style.backgroundColor = ""; // Reset to original color
-  });
-    // drop file listener
+    });
+  // drop file listener
   document
     .addEventListener("drop", (e) => {
       e.preventDefault();
       document.body.style.backgroundColor = "";
       document.getElementById("input-rom").files = e.dataTransfer.files;
-  });
+    });
 
 
 }
