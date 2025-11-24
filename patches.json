@@ -4,7 +4,7 @@
     {
       "name": "InsecureBoot (PatchBoot Method)",
       "description": "Allows loading unsigned EFI binaries with secure boot on. <a href=\"https://virtfunc.com/projects/insecureboot/\">See writeup</a>.",
-      "content": "# Return EFI_SUCCESS early in DxeImageVerificationHandler\nF80697E9-7FD6-4665-8646-88E33EF71DFC 10 P:488BC4488958084889..184889..2048895010..415441554156415748:4831C0C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3\n"
+      "content": "# Return EFI_SUCCESS early in DxeImageVerificationHandler\nF80697E9-7FD6-4665-8646-88E33EF71DFC 10 P:488BC4488958084889..184889..2048895010..415441554156415748:4831C0C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3\nF80697E9-7FD6-4665-8646-88E33EF71DFC 10 P:4C8BDC49895B0849896B184989..............41..41................:4831C0C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3"
     },
         {
       "name": "InsecureBoot (Alternative Method)",
