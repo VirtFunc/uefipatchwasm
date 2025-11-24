@@ -1,7 +1,13 @@
 {
   "patches": [
+
     {
       "name": "InsecureBoot",
+      "description": "Allows loading unsigned EFI binaries with secure boot on. <a href=\"https://virtfunc.com/projects/insecureboot/\">See writeup</a>.",
+      "content": "# Return EFI_SUCCESS early in ImageVerificationHandler\nF80697E9-7FD6-4665-8646-88E33EF71DFC 10 P:488BC4488958084889..184889..2048895010..415441554156415748:4831C0C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3\n"
+    },
+        {
+      "name": "InsecureBoot (Legacy)",
       "description": "Allows loading unsigned EFI binaries with secure boot on. <a href=\"https://virtfunc.com/projects/insecureboot/\">See writeup</a>.",
       "content": "# Replace EFI_SECURITY_VIOLATION with EFI_SUCCESS in SecurityStubDxe\nF80697E9-7FD6-4665-8646-88E33EF71DFC 10 P:1A00000000000080:0000000000000000\n"
     },

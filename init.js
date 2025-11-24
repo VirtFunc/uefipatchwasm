@@ -65,7 +65,8 @@ function init() {
   // pull the patches json.
   // if you dont like this, feel free to block this request with your browser, and you can supply ur own patches.
   // but as you can see later, it will always show the contents of the pending patches giving the user a chance
-  // to audit it as they see fit.
+  // to audit it as they see fit. A second however: the json is injected as raw html, so a script could be loaded 
+  // to hide this behaviour.
   fetch("patches.json")
     .then((response) => response.json())
     .then((data) => {
@@ -84,9 +85,9 @@ function init() {
     output.innerText = "";
     status.innerText = "";
     var inputRom = document.getElementById("input-rom").files[0];
-    var patchesTxt = document.getElementById("patches-txt").innerText;
-    if (inputRom) {
-      var reader = new FileReader();
+    var patchesTxt = document.getElementById("patches-pending").innerText;
+    if (inputRom) { //do we have a rom to patch? yes: patch it
+      var reader = new FileReader(); 
       reader.onload = function (e) {
         var inputRomArray = new Uint8Array(e.target.result);
         patchButtonState("Patching...", true);
@@ -97,7 +98,7 @@ function init() {
         });
       };
       reader.readAsArrayBuffer(inputRom);
-    } else {
+    } else { // no: throw error
       alert("Please select an INPUT.ROM file.");
     }
   });
@@ -122,23 +123,21 @@ function init() {
     .addEventListener("dragover", (e) => {
       e.preventDefault();
       if (e.dataTransfer.types.includes("Files")) {
-        document.body.style.backgroundColor = "#0000e1"; // Change to whatever color you want
+        document.body.style.backgroundColor = "#0827F5"; // bluescreen color
       }
     });
   // watch for leaving the drop zone
   document
     .addEventListener("dragleave", (e) => {
-      document.body.style.backgroundColor = ""; // Reset to original color
+      document.body.style.backgroundColor = ""; // reset to original color
     });
-  // drop file listener
+  // dropped file listener
   document
     .addEventListener("drop", (e) => {
       e.preventDefault();
       document.body.style.backgroundColor = "";
       document.getElementById("input-rom").files = e.dataTransfer.files;
     });
-
-
 }
 function refreshPatches() {
   //console.log("Refreshing patches...");
@@ -156,7 +155,7 @@ function refreshPatches() {
       patchesTxt += patchMapping[patchName];
     }
   }
-  document.getElementById("patches-txt").innerText = patchesTxt;
+  document.getElementById("patches-pending").innerText = patchesTxt;
 
   // Show/hide custom patches textarea based on the custom checkbox
   const customCheckbox = document.querySelector(
@@ -180,12 +179,12 @@ function buildPatches(patches) {
     checkbox.setAttribute("data-patchname", patch.name);
     patchDiv.appendChild(checkbox);
 
-    const nameElement = document.createElement("strong");
-    nameElement.textContent = patch.name + ": ";
-    patchDiv.appendChild(nameElement);
+    const nameElement = document.createElement("strong"); //bolded title
+    nameElement.textContent = patch.name + ": ";          //separated by a colon
+    patchDiv.appendChild(nameElement);                    
 
-    const description = document.createElement("span");
-    description.innerHTML = patch.description;
+    const description = document.createElement("span");   
+    description.innerHTML = patch.description;            //followed by the raw (from json) patch description
     patchDiv.appendChild(description);
 
     patchDiv.appendChild(document.createElement("br"));
