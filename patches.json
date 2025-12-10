@@ -13,7 +13,7 @@
     },
     {
       "name": "TPM2 AntiLog",
-      "description": "Prevent TPM logging + PCR Extension. Works on AMI firmware.",
+      "description": "Prevent TPM logging + PCR Extension. Works on AMI firmware. <a href=\"https://virtfunc.com/projects/tpm2-antilog/\">See writeup</a>",
       "content": "# Return EFI_SUCCESS early in AMI's internal HashLogExtendEvent function.\n39045756-FCA3-49BD-8DAE-C7BAE8389AFF 10 P:488BC4488958104C8940184889480855565741544155415641574883EC:4831C0C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3\n39045756-FCA3-49BD-8DAE-C7BAE8389AFF 10 P:4C894C24204C89442418488954241048894C24084881ECE801000048C7:4831C0C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3\n"
     },
     {
